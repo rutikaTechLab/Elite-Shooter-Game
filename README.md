@@ -18,7 +18,7 @@ https://rutikatechlab.github.io/Elite-Shooter-Game/
 
 ## 📸 Screenshot
 
-![Screenshot](Elite Shooter 1.png)
+![Screenshot](https://github.com/rutikaTechLab/Elite-Shooter-Game/blob/main/Elite%20Shooter%201.png)
 ![Screenshot](Elite Shooter 2.png)
 
 ---
