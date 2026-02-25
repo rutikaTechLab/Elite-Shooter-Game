@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELITE SHOOTER • Advanced Shooting Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hidden audio elements for preloading -->
+    <audio id="shootSound" preload="auto">
+        <source src="data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4GhbQQVeLkLZVxv1L6l3m2c0g3rOryJqA6Ad9WBP1xmY/f9/3///////4gJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCAkICQgJCAkICQgJCAkICQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQ==" type="audio/wav">
+    </audio>
+    <audio id="hitSound" preload="auto">
+        <source src="data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4GhbQQVeLkLZVxv1L6l3m2c0g3rOryJqA6Ad9WBP1xmY/f9/3///////4gJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCAkICQgJCAkICQgJCAkICQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQ==" type="audio/wav">
+    </audio>
+    <audio id="missSound" preload="auto">
+        <source src="data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4GhbQQVeLkLZVxv1L6l3m2c0g3rOryJqA6Ad9WBP1xmY/f9/3///////4gJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCAkICQgJCAkICQgJCAkICQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQ==" type="audio/wav">
+    </audio>
+    <audio id="gameOverSound" preload="auto">
+        <source src="data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4GhbQQVeLkLZVxv1L6l3m2c0g3rOryJqA6Ad9WBP1xmY/f9/3///////4gJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCAkICQgJCAkICQgJCAkICQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQ==" type="audio/wav">
+    </audio>
+    <audio id="waveCompleteSound" preload="auto">
+        <source src="data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4GhbQQVeLkLZVxv1L6l3m2c0g3rOryJqA6Ad9WBP1xmY/f9/3///////4gJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCAkICQgJCAkICQgJCAkICQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQgJCQ==" type="audio/wav">
+    </audio>
+
+    <div class="game-wrapper">
+        <canvas id="gameCanvas" width="900" height="500"></canvas>
+        
+        <div class="hud">
+            <div class="score-board">
+                <div class="score-row">
+                    <div class="score-item">
+                        <div class="score-label">SCORE</div>
+                        <div class="score-value" id="score">0</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">HITS</div>
+                        <div class="score-value" id="hits">0</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">MISSES</div>
+                        <div class="score-value" id="misses">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lives">
+                <div class="lives-label">TARGETS LEFT</div>
+                <div class="lives-value" id="targetsLeft">0</div>
+            </div>
+        </div>
+        
+        <!-- Sound Toggle Button -->
+        <div class="sound-toggle" id="soundToggle" onclick="game.toggleSound()">🔊</div>
+        
+        <div class="notification" id="notification">+10 POINTS</div>
+        
+        <div class="controls">
+            Click on targets to score points • 10 targets per wave • 5 misses = Game Over • Press S for sound on/off
+        </div>
+        
+        <div class="game-overlay" id="gameOverlay">
+            <div class="menu">
+                <h1 id="menuTitle">GAME OVER</h1>
+                <div class="stats">
+                    <div class="stat">
+                        <span>Final Score</span>
+                        <span id="finalScore">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Targets Hit</span>
+                        <span id="finalHits">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Missed Shots</span>
+                        <span id="finalMisses">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Accuracy</span>
+                        <span id="finalAccuracy">0%</span>
+                    </div>
+                </div>
+                <button onclick="game.newGame()">PLAY AGAIN</button>
+                <button onclick="game.toggleSound()" id="soundButton">🔊 SOUND ON</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
